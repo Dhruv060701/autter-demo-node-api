@@ -1,0 +1,22 @@
+{
+  "name": "autter-demo-node-api",
+  "version": "0.1.0",
+  "type": "module",
+  "private": false,
+  "scripts": {
+    "dev": "tsx src/server.ts",
+    "test": "vitest run",
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@fastify/rate-limit": "^10.3.0",
+    "fastify": "^5.4.0",
+    "zod": "^3.25.67"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.7",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
+  }
+}
