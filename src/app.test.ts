@@ -19,4 +19,16 @@ describe("planted API bugs", () => {
     const res = await app.inject({ method: "POST", url: "/api/tokens" });
     expect(res.statusCode).toBe(200);
   });
+
+  // Temporary regression test for CVE updates
+  test("fastify basic routing works after CVE fix", async () => {
+    const app = buildApp();
+    await app.ready();
+    const res = await app.inject({
+      method: "GET",
+      url: "/api/projects",
+    });
+    expect(res.statusCode).toBe(200);
+    expect(Array.isArray(res.json())).toBe(true);
+  });
 });
