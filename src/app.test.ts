@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, test } from "vitest";
 import { authenticate } from "./auth.js";
 import { buildApp } from "./app.js";
@@ -30,5 +31,18 @@ describe("planted API bugs", () => {
     });
     expect(res.statusCode).toBe(200);
     expect(Array.isArray(res.json())).toBe(true);
+  });
+
+  // Temporary regression test for the vite CVE bump (GHSA-587h-7wmj-h5pm)
+  test("vite is bumped to the patched version 8.3.3", () => {
+    const lock = JSON.parse(
+      readFileSync(new URL("../package-lock.json", import.meta.url), "utf8"),
+    );
+    const vite = lock.packages["node_modules/vite"];
+    expect(vite).toBeDefined();
+    expect(vite.version).toBe("8.3.3");
+    // Boundary/negative: the vulnerable 7.3.6 must no longer be pinned.
+    expect(vite.version).not.toBe("7.3.6");
+    expect(vite.version.split(".").map(Number)[0]).toBeGreaterThanOrEqual(8);
   });
 });
